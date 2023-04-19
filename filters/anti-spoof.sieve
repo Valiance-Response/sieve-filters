@@ -13,7 +13,6 @@ if header :contains "Authentication-Results" "dmarc=fail" {
     # No anti-spoofing setup
     addFlag "AUTH-FAIL"
     fileinto "Spam";
-    stop;
   }
 }
 

@@ -5,5 +5,5 @@ if anyof (header :contains "Subject" "two-factor code",
           header :contains "Subject" "authentication code",
           regex :matches "body" "[0-9]{6}")
 {
-    fileinto "Two-factor codes";
+    fileinto "2FA codes";
 }

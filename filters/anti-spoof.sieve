@@ -32,7 +32,7 @@ if anyof(
     not header :is "reply-to" "valianceresponse.org"
 ) {
     # File into Spam and mark as Phishing
-    addflag "Phishing";
+    addflag "PHISHING";
     fileinto "Spam"
     stop;
   

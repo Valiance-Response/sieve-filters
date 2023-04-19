@@ -1,4 +1,4 @@
-require ["fileinto", "imap4flags"];
+require ["fileinto", "imap4flags", "envelope", "include"];
 
 # Mark emails that fail DMARC
 if header :contains "Authentication-Results" "dmarc=fail" {
@@ -21,4 +21,22 @@ if header :contains "Authentication-Results" "dmarc=fail" {
 if header :is "x-pm-transfer-encryption" "none" {
     addFlag "NO TLS/SSL";
     fileinto "Spam";
+}
+
+# Check for mismatches between sender values
+if anyof(
+    # Sender domain does not match the expected domain
+    not address :is :domain "from" "valianceresponse.org",
+    # Reply-to domain does not match the expected domain
+    exists "reply-to" :domain "valianceresponse.org",
+    not header :is "reply-to" "valianceresponse.org"
+) {
+    # File into Spam and mark as Phishing
+    addflag "Phishing";
+    fileinto "Spam"
+    stop;
+  
+} elsif address :is :domain "from" "valianceresponse.org" {
+    # File into Inbox
+    fileinto "Inbox";
 }

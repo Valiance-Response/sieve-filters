@@ -11,7 +11,7 @@ if header :contains "Authentication-Results" "dmarc=fail" {
     addFlag "AUTH-INCOMPLETE";
   } else {
     # No anti-spoofing setup
-    addFlag "AUTH-FAIL"
+    addFlag "AUTH-FAIL";
     fileinto "Spam";
   }
 }
@@ -32,7 +32,7 @@ if anyof(
 ) {
     # File into Spam and mark as Phishing
     addflag "PHISHING";
-    fileinto "Spam"
+    fileinto "Spam";
     stop;
   
 } elsif address :is :domain "from" "valianceresponse.org" {
